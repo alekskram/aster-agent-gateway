@@ -1,0 +1,15 @@
+[Unit]
+Description=Aster Agent Gateway - fixture recorder (one pass)
+Documentation=https://github.com/aster-agent-gateway/aster-agent-gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# One pass = ~15 requests (well inside 2400/min fapi, 6000/min sapi,
+# 10/min solana). Fixtures land in tests/fixtures/ of the checkout below.
+WorkingDirectory=/opt/aster-agent-gateway
+ExecStart=/usr/bin/env python scripts/recorder.py --out tests/fixtures
+Environment=PYTHONUNBUFFERED=1
+# A full pass is 1-3 minutes worst case with retries
+TimeoutStartSec=300

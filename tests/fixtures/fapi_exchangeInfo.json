@@ -1,0 +1,424 @@
+{
+ "symbols": [
+  {
+   "symbol": "BTCUSDT",
+   "status": "TRADING",
+   "baseAsset": "BTC",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1590000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "ETHUSDT",
+   "status": "TRADING",
+   "baseAsset": "ETH",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1590000001000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "SOLUSDT",
+   "status": "TRADING",
+   "baseAsset": "SOL",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "XAUUSD1",
+   "status": "TRADING",
+   "baseAsset": "XAUUSD1",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "SPCXUSDT",
+   "status": "TRADING",
+   "baseAsset": "SPCX",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "CLUSDT",
+   "status": "TRADING",
+   "baseAsset": "CL",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "ZNUSDT",
+   "status": "TRADING",
+   "baseAsset": "ZN",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "MUUSDT",
+   "status": "TRADING",
+   "baseAsset": "MU",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "SNDKUSDT",
+   "status": "TRADING",
+   "baseAsset": "SNDK",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "USD1PAIR",
+   "status": "TRADING",
+   "baseAsset": "PAIR",
+   "quoteAsset": "USD1",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "OLDUSDT",
+   "status": "SETTLING",
+   "baseAsset": "OLD",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "NEWUSDT",
+   "status": "PENDING",
+   "baseAsset": "NEW",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1700000000000,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "FRESHUSDT",
+   "status": "TRADING",
+   "baseAsset": "FRESH",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1788522253643,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  },
+  {
+   "symbol": "FRESH2USDT",
+   "status": "TRADING",
+   "baseAsset": "FRESH2",
+   "quoteAsset": "USDT",
+   "contractType": "PERPETUAL",
+   "onboardDate": 1788263053643,
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.10"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.001",
+     "minQty": "0.001",
+     "maxQty": "1000"
+    },
+    {
+     "filterType": "MIN_NOTIONAL",
+     "notional": "5"
+    },
+    {
+     "filterType": "LEVERAGE_FILTER",
+     "minLeverage": "1",
+     "maxLeverage": "50",
+     "stepLeverage": "1"
+    }
+   ]
+  }
+ ]
+}

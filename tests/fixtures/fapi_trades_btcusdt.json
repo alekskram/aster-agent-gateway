@@ -1,0 +1,18 @@
+[
+ {
+  "id": 1001,
+  "price": "70000.50",
+  "qty": "0.010",
+  "quoteQty": "700.00",
+  "time": 1788695052643,
+  "isBuyerMaker": false
+ },
+ {
+  "id": 1000,
+  "price": "69999.00",
+  "qty": "0.020",
+  "quoteQty": "1399.98",
+  "time": 1788695051643,
+  "isBuyerMaker": true
+ }
+]

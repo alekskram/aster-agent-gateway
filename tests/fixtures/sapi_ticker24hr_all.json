@@ -1,0 +1,20 @@
+[
+ {
+  "symbol": "BTCUSDT",
+  "lastPrice": "70010.00",
+  "priceChangePercent": "0.9",
+  "quoteVolume": "22000000.0"
+ },
+ {
+  "symbol": "ETHUSDT",
+  "lastPrice": "3501.00",
+  "priceChangePercent": "-0.3",
+  "quoteVolume": "9000000.0"
+ },
+ {
+  "symbol": "TESTJUNK1",
+  "lastPrice": "0.01",
+  "priceChangePercent": "0",
+  "quoteVolume": "10.0"
+ }
+]

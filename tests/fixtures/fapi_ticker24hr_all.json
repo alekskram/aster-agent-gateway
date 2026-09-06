@@ -1,0 +1,134 @@
+[
+ {
+  "symbol": "BTCUSDT",
+  "lastPrice": "70000.50",
+  "priceChangePercent": "1.25",
+  "quoteVolume": "500000000.5",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "ETHUSDT",
+  "lastPrice": "3500.10",
+  "priceChangePercent": "-0.75",
+  "quoteVolume": "300000000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "SOLUSDT",
+  "lastPrice": "150.25",
+  "priceChangePercent": "3.5",
+  "quoteVolume": "100000000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "XAUUSD1",
+  "lastPrice": "2650.75",
+  "priceChangePercent": "0.5",
+  "quoteVolume": "740000000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "SPCXUSDT",
+  "lastPrice": "6900.00",
+  "priceChangePercent": "0.2",
+  "quoteVolume": "5000000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "CLUSDT",
+  "lastPrice": "70.35",
+  "priceChangePercent": "-1.0",
+  "quoteVolume": "8000000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "ZNUSDT",
+  "lastPrice": "110.25",
+  "priceChangePercent": "0.05",
+  "quoteVolume": "2000000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "MUUSDT",
+  "lastPrice": "105.50",
+  "priceChangePercent": "2.0",
+  "quoteVolume": "15000000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "SNDKUSDT",
+  "lastPrice": "180.25",
+  "priceChangePercent": "4.5",
+  "quoteVolume": "9000000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "FRESHUSDT",
+  "lastPrice": "1.05",
+  "priceChangePercent": "12.0",
+  "quoteVolume": "500000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "FRESH2USDT",
+  "lastPrice": "2.05",
+  "priceChangePercent": "8.0",
+  "quoteVolume": "300000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ },
+ {
+  "symbol": "OLDUSDT",
+  "lastPrice": "0.05",
+  "priceChangePercent": "-90.0",
+  "quoteVolume": "1000.0",
+  "volume": "1000.0",
+  "highPrice": "1.2",
+  "lowPrice": "0.8",
+  "weightedAvgPrice": "1.0",
+  "count": 1234
+ }
+]

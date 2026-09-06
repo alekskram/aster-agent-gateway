@@ -1,0 +1,90 @@
+[
+ {
+  "symbol": "BTCUSDT",
+  "markPrice": "70001.00",
+  "indexPrice": "70000.00",
+  "lastFundingRate": "0.000100",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "ETHUSDT",
+  "markPrice": "3498.00",
+  "indexPrice": "3500.00",
+  "lastFundingRate": "-0.000200",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "SOLUSDT",
+  "markPrice": "150.50",
+  "indexPrice": "150.00",
+  "lastFundingRate": "0.000300",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "XAUUSD1",
+  "markPrice": "2650.76",
+  "indexPrice": "2650.75",
+  "lastFundingRate": "0.000050",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "SPCXUSDT",
+  "markPrice": "6901.00",
+  "indexPrice": "6900.00",
+  "lastFundingRate": "0.000010",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "CLUSDT",
+  "markPrice": "70.30",
+  "indexPrice": "70.35",
+  "lastFundingRate": "-0.000015",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "ZNUSDT",
+  "markPrice": "110.25",
+  "indexPrice": "110.25",
+  "lastFundingRate": "0.000001",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "MUUSDT",
+  "markPrice": "105.60",
+  "indexPrice": "105.50",
+  "lastFundingRate": "0.000500",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "SNDKUSDT",
+  "markPrice": "180.30",
+  "indexPrice": "180.25",
+  "lastFundingRate": "0.000800",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "FRESHUSDT",
+  "markPrice": "1.06",
+  "indexPrice": "1.04",
+  "lastFundingRate": "0.003000",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ },
+ {
+  "symbol": "FRESH2USDT",
+  "markPrice": "2.04",
+  "indexPrice": "2.06",
+  "lastFundingRate": "-0.003000",
+  "nextFundingTime": 1788698653643,
+  "interestRate": "0.000100"
+ }
+]

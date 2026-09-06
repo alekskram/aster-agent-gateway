@@ -1,0 +1,86 @@
+[
+ {
+  "symbol": "BTCUSDT",
+  "fundingIntervalHours": 8,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "ETHUSDT",
+  "fundingIntervalHours": 8,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "SOLUSDT",
+  "fundingIntervalHours": 4,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "XAUUSD1",
+  "fundingIntervalHours": 1,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "SPCXUSDT",
+  "fundingIntervalHours": 2,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "CLUSDT",
+  "fundingIntervalHours": 8,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "ZNUSDT",
+  "fundingIntervalHours": 8,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "MUUSDT",
+  "fundingIntervalHours": 8,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "SNDKUSDT",
+  "fundingIntervalHours": 8,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "FRESHUSDT",
+  "fundingIntervalHours": 8,
+  "cap": "0.003",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "FRESH2USDT",
+  "fundingIntervalHours": 8,
+  "cap": "0.003",
+  "floor": "-0.0031",
+  "interestRate": "0.0001"
+ },
+ {
+  "symbol": "NOMAPUSDT",
+  "fundingIntervalHours": 4,
+  "cap": "0.03",
+  "floor": "-0.03",
+  "interestRate": "0.0001"
+ }
+]

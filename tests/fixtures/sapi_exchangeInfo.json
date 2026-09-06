@@ -1,0 +1,50 @@
+{
+ "symbols": [
+  {
+   "symbol": "BTCUSDT",
+   "status": "TRADING",
+   "baseAsset": "BTC",
+   "quoteAsset": "USDT",
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.01"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.00001"
+    }
+   ]
+  },
+  {
+   "symbol": "ETHUSDT",
+   "status": "TRADING",
+   "baseAsset": "ETH",
+   "quoteAsset": "USDT",
+   "filters": [
+    {
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.01"
+    },
+    {
+     "filterType": "LOT_SIZE",
+     "stepSize": "0.0001"
+    }
+   ]
+  },
+  {
+   "symbol": "TESTJUNK1",
+   "status": "TRADING",
+   "baseAsset": "TESTJUNK",
+   "quoteAsset": "USDT",
+   "filters": []
+  },
+  {
+   "symbol": "TESTJUNK2",
+   "status": "TRADING",
+   "baseAsset": "TEST",
+   "quoteAsset": "USDT",
+   "filters": []
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "result": {
+  "userAddress": "0xpublic00000000000000000000000000000000cafe",
+  "accountPrivacy": "disabled",
+  "balances": [
+   {
+    "coin": "USDT",
+    "balance": "1234.56",
+    "available": "1200.00"
+   }
+  ]
+ }
+}
