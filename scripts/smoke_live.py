@@ -174,17 +174,23 @@ def main() -> int:
         check("solana vault signatures", False, repr(e)[:120])
 
     # ---- 8: tapi public-account probe (privacy-empty = honest PASS
-    # of the degradation path; data = bonus)
+    # of the degradation path; data = bonus). Params use the DOCUMENTED
+    # ARRAY form [address, blockTag] - the object form returns 400.
     tapi_outcome = "not-run"
     try:
         res = live_rpc(chain.TAPI_URL, "aster_getBalance",
-                       {"userAddress":
-                        "0x128463a60784c4d3f46c23af3f65ed859ba87974"})
+                       ["0x128463a60784c4d3f46c23af3f65ed859ba87974",
+                        "latest"])
         _record("tapi_getBalance_vault", {"result": res})
-        if res is None or res == [] or res == {}:
-            tapi_outcome = "privacy-empty (honest degradation path)"
+        has_data = isinstance(res, dict) and any(
+            res.get(k) for k in ("perpAssets", "balances",
+                                 "positions", "orders", "fills"))
+        if not has_data:
+            tapi_outcome = (f"privacy-empty (honest degradation path; "
+                            f"accountPrivacy="
+                            f"{(res or {}).get('accountPrivacy') if isinstance(res, dict) else None})")
             check("tapi aster_getBalance", True,
-                  "empty result -> privacy degradation is correct")
+                  "privacy-empty result -> degradation is correct")
         else:
             tapi_outcome = f"DATA returned: {json.dumps(res)[:100]}"
             check("tapi aster_getBalance", True, tapi_outcome)

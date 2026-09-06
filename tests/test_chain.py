@@ -65,7 +65,8 @@ class TestTapi:
         chain.tapi_balance("0x" + "ab" * 20)
         body = fake.requests[0]
         assert body["method"] == "aster_getBalance"
-        assert body["params"]["userAddress"] == "0x" + "ab" * 20
+        # documented ARRAY form: [address, blockTag]
+        assert body["params"] == ["0x" + "ab" * 20, "latest"]
         assert body["jsonrpc"] == "2.0"
 
     def test_jsonrpc_error_raises(self, monkeypatch):

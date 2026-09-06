@@ -191,12 +191,13 @@ TAPI_METHODS = {
 
 
 def tapi_call(method: str, address: str, extra: dict | None = None) -> Any:
-    """One tapi read for `address`. extra params (marginCoin etc) are
-    passed through. Returns the raw result; the SERVER layer decides
-    privacy-empty vs data (see server.account_view)."""
-    params: dict = {"userAddress": (address or "").strip()}
-    if extra:
-        params.update(extra)
+    """One tapi read for `address`. Params use the DOCUMENTED array form
+    [address, blockTag] (live-verified: the object {"userAddress": ...}
+    form returns HTTP 400). extra params are ignored for now - tapi
+    methods take only the two positional params. Returns the raw
+    result; the SERVER layer decides privacy-empty vs data (see
+    server.account_view)."""
+    params: list = [(address or "").strip(), "latest"]
     return rpc_post(TAPI_URL, method, params, surface="tapi")
 
 

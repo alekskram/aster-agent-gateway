@@ -40,48 +40,59 @@ _INTERVALS = ("1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h",
               "8h", "12h", "1d", "3d", "1w", "1M")
 
 # ---------------------------------------------------------------------------
-# TradFi asset-class map (local; per spec D3): base-asset prefix ->
-# class. Built from the futures universe observed 2026-09: metals,
-# equity-index, energy, treasuries, forex singles.
-_TRADFI_CLASSES: list[tuple[str, str]] = [
-    # metals (spot + futures naming)
-    ("XAU", "metals"), ("XAG", "metals"), ("XPT", "metals"),
-    ("XPD", "metals"), ("GOLD", "metals"), ("SILVER", "metals"),
-    # equity index / single equities
-    ("SPC", "equity-index"), ("SPX", "equity-index"), ("NDX", "equity-index"),
-    ("SP", "equity-index"), ("NAS", "equity-index"), ("ND", "equity-index"),
-    ("DXY", "equity-index"), ("US30", "equity-index"), ("JP225", "equity-index"),
-    ("US30K", "equity-index"),
+# TradFi asset-class map (local; per spec D3): built from the futures
+# universe observed live 2026-09. EXACT matches avoid false positives
+# (crypto bases like SPACE/SPK/CLO/MUBARAK must NOT classify as TradFi
+# even though they share prefixes with SPX/CL/MU); only unambiguous
+# metal prefixes use prefix matching.
+_TRADFI_EXACT: dict[str, str] = {
+    # metals
+    "GOLD": "metals", "SILVER": "metals",
+    # equity index
+    "SPCX": "equity-index", "SPX": "equity-index", "SPY": "equity-index",
+    "NDX": "equity-index", "NAS": "equity-index", "ND": "equity-index",
+    "DXY": "equity-index", "US30": "equity-index",
+    "US30K": "equity-index", "JP225": "equity-index",
     # single equities (perp'd stocks)
-    ("MU", "equity-single"), ("SNDK", "equity-single"), ("NVDA", "equity-single"),
-    ("TSLA", "equity-single"), ("COIN", "equity-single"), ("MSTR", "equity-single"),
-    ("AAPL", "equity-single"), ("AMZN", "equity-single"), ("GOOG", "equity-single"),
-    ("META", "equity-single"), ("MSFT", "equity-single"), ("HOOD", "equity-single"),
-    ("PLTR", "equity-single"), ("CRCL", "equity-single"), ("OPEN", "equity-single"),
-    ("SPOT", "equity-single"), ("NBIS", "equity-single"), ("BABA", "equity-single"),
+    "MU": "equity-single", "SNDK": "equity-single",
+    "NVDA": "equity-single", "TSLA": "equity-single",
+    "COIN": "equity-single", "MSTR": "equity-single",
+    "AAPL": "equity-single", "AMZN": "equity-single",
+    "GOOGL": "equity-single", "GOOG": "equity-single",
+    "META": "equity-single", "MSFT": "equity-single",
+    "HOOD": "equity-single", "PLTR": "equity-single",
+    "CRCL": "equity-single", "OPEN": "equity-single",
+    "SPOT": "equity-single", "NBIS": "equity-single",
+    "BABA": "equity-single",
     # energy
-    ("CL", "energy"), ("NG", "energy"), ("OIL", "energy"), ("WTI", "energy"),
-    ("BRENT", "energy"), ("RB", "energy"), ("HO", "energy"),
+    "CL": "energy", "NG": "energy", "OIL": "energy", "WTI": "energy",
+    "BRENT": "energy", "RB": "energy", "HO": "energy",
     # treasuries / rates
-    ("ZN", "treasuries"), ("ZB", "treasuries"), ("ZF", "treasuries"),
-    ("UB", "treasuries"), ("TN", "treasuries"), ("US10Y", "treasuries"),
-    ("US02Y", "treasuries"), ("US30Y", "treasuries"),
-    # forex majors (perp-style singles)
-    ("EUR", "forex"), ("GBP", "forex"), ("JPY", "forex"), ("AUD", "forex"),
-    ("CAD", "forex"), ("CHF", "forex"), ("NZD", "forex"),
+    "ZN": "treasuries", "ZB": "treasuries", "ZF": "treasuries",
+    "UB": "treasuries", "TN": "treasuries", "ZBT": "treasuries",
+    "US10Y": "treasuries", "US02Y": "treasuries", "US30Y": "treasuries",
+    # forex majors
+    "EUR": "forex", "GBP": "forex", "JPY": "forex", "AUD": "forex",
+    "CAD": "forex", "CHF": "forex", "NZD": "forex",
+}
+# unambiguous metal prefixes (no crypto base starts with these)
+_TRADFI_PREFIXES: list[tuple[str, str]] = [
+    ("XAU", "metals"), ("XAG", "metals"), ("XPT", "metals"),
+    ("XPD", "metals"),
 ]
 
 
 def _tradfi_class(base: str) -> str | None:
-    """Map a base asset to a TradFi class by longest-prefix match."""
+    """Map a base asset to a TradFi class: exact match first, then the
+    unambiguous metal prefixes. Crypto lookalikes (SPACE, SPK, CLO,
+    MUBARAK) return None."""
     b = (base or "").upper()
-    best = None
-    best_len = 0
-    for prefix, cls in _TRADFI_CLASSES:
-        if b.startswith(prefix) and len(prefix) > best_len:
-            best = cls
-            best_len = len(prefix)
-    return best
+    if b in _TRADFI_EXACT:
+        return _TRADFI_EXACT[b]
+    for prefix, cls in _TRADFI_PREFIXES:
+        if b.startswith(prefix):
+            return cls
+    return None
 
 
 # ------------------------------------------------------------------ helpers
@@ -255,9 +266,11 @@ def exchange_symbols(venue: str = "futures", symbol: str | None = None,
             if want and sym != want:
                 continue
             status = s.get("status") or ""
-            is_junk = sym.startswith("TEST") or status in ("SETTLING",
-                                                           "PENDING",
-                                                           "BREAK")
+            # junk: TEST* spot names, plus non-TRADING futures
+            # statuses (SETTLING, PENDING, PENDING_TRADING, BREAK) -
+            # they are not tradeable panels
+            is_junk = sym.startswith("TEST") or (
+                venue_key == "futures" and status != "TRADING")
             micro = _symbol_micro(s)
             row = {
                 "symbol": sym,
@@ -975,20 +988,35 @@ def account_view(address: str, data: str = "balance") -> dict:
     try:
         result = chain.tapi_call(method, addr)
     except chain.RpcError as e:
+        # aster_openOrders/userFills on privacy-hidden accounts return
+        # JSON-RPC -32603 "internal error" - that is the same privacy
+        # wall, not an upstream outage; degrade to the privacy dict.
+        if e.code == -32603:
+            return _err(
+                "tapi",
+                f"{method} returned no data for this address",
+                "account privacy: tapi hides orders/fills for private "
+                "accounts (JSON-RPC -32603 upstream)",
+                address=addr, method=method,
+                account_privacy=None, raw_empty=True)
         return _err("tapi", f"{method} failed for {addr[:16]}...: {e}",
                     f"rpc failure ({e.kind})")
     # privacy-empty detection: tapi answers keyless but most accounts
-    # are private -> empty/null result, sometimes with accountPrivacy
-    # flags. That is NOT data; degrade honestly.
-    if result is None or result == [] or result == {} or (
-            isinstance(result, dict) and not result.get(
-                "balance", result.get("balances", result.get("orders",
-                                                             result.get(
-                                                                 "fills",
-                                                                 1))))):
-        privacy = None
-        if isinstance(result, dict):
-            privacy = result.get("accountPrivacy")
+    # are private -> result carries ONLY {address, accountPrivacy:
+    # "enabled"} with no balances/orders/fills. That is NOT data;
+    # degrade honestly. (Live-verified shape 2026-09-06.)
+    def _has_data(r) -> bool:
+        if not isinstance(r, dict):
+            return bool(r)  # non-empty scalar/list = data
+        for key in ("perpAssets", "balances", "positions", "orders",
+                    "fills", "spotAssets"):
+            if r.get(key):
+                return True
+        return False
+
+    if not _has_data(result):
+        privacy = result.get("accountPrivacy") \
+            if isinstance(result, dict) else None
         return _err(
             "tapi",
             f"{method} returned no data for this address",

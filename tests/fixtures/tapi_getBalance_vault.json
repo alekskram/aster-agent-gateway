@@ -1,7 +1,4 @@
 {
- "result": {
-  "userAddress": "0x128463a60784c4d3f46c23af3f65ed859ba87974",
-  "accountPrivacy": "enabled",
-  "balances": []
- }
+ "address": "0x128463a60784c4d3f46c23af3f65ed859ba87974",
+ "accountPrivacy": "enabled"
 }

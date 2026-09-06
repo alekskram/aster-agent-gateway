@@ -1,13 +1,15 @@
 {
- "result": {
-  "userAddress": "0xpublic00000000000000000000000000000000cafe",
-  "accountPrivacy": "disabled",
-  "balances": [
-   {
-    "coin": "USDT",
-    "balance": "1234.56",
-    "available": "1200.00"
-   }
-  ]
- }
+ "address": "0x128463a60784c4d3f46c23af3f65ed859ba87974",
+ "accountPrivacy": "disabled",
+ "perpAssets": [
+  {
+   "asset": "USDT",
+   "walletBalance": 1234.56
+  },
+  {
+   "asset": "USD1",
+   "walletBalance": 12.0
+  }
+ ],
+ "positions": []
 }

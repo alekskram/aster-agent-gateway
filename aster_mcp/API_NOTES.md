@@ -49,11 +49,16 @@ mirror these shapes.
 ## tapi - Aster Chain JSON-RPC (https://tapi.asterdex.com/info)
 
 - Body `{"jsonrpc":"2.0","id":1,"method":"aster_getBalance","params":
-  {"userAddress": ...}}` - answers KEYLESS, but **account privacy
-  hides most accounts**: private accounts return an empty result
-  (observed with `accountPrivacy: "enabled"` on the BSC vault address
-  and a burn address). Empty = privacy, not an API failure - the
-  gateway returns an honest error-dict explaining why.
+  ["0x...", "latest"]}` (PARAMS IS AN ARRAY: address + blockTag; the
+  object form `{"userAddress": ...}` returns HTTP 400 - live-verified)
+  - answers KEYLESS, but **account privacy hides most accounts**:
+  private accounts return a result with only {address,
+  accountPrivacy: "enabled"} and no balances (observed on the BSC vault
+  address and a burn address). Empty = privacy, not an API failure -
+  the gateway returns an honest error-dict explaining why.
+- `aster_openOrders` on a privacy-hidden account returns JSON-RPC
+  -32603 (internal error) - also mapped to the privacy degradation
+  path.
 - Methods used (read-only): `aster_getBalance`, `aster_openOrders`,
   `aster_userFills` (+ `aster_spotGetBalance` /
   `aster_spotOpenOrders` / `aster_spotUserFills` variants).
