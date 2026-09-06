@@ -1,5 +1,10 @@
 # aster-agent-gateway
 
+[![CI](https://github.com/alekskram/aster-agent-gateway/actions/workflows/tests.yml/badge.svg)](https://github.com/alekskram/aster-agent-gateway/actions/workflows/tests.yml)
+[![PyPI](https://img.shields.io/pypi/v/aster-agent-gateway.svg)](https://pypi.org/project/aster-agent-gateway/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
+
 An MCP (Model Context Protocol) server that gives AI agents read-only,
 keyless access to **Aster DEX** public data - ~580 futures symbols
 (including 24/7 TradFi perps: metals, equity indices, energy,
