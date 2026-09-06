@@ -139,7 +139,7 @@ Two REST buckets, locally enforced and weight-aware:
 TTL caches: exchangeInfo 3600s, fundingInfo 600s, premiumIndex and
 tickers 15s, depth 5s, klines 60s, trades 10s, openInterest 30s.
 
-## Honesty and degradation
+## Data notes
 
 - Every numeric from the API is a STRING upstream; parsed with a
   never-raising helper - `null` always means "not available", never
