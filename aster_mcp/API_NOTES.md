@@ -24,8 +24,10 @@ mirror these shapes.
   markPrice, indexPrice, lastFundingRate, nextFundingTime,
   interestRate.
 - `fundingInfo` (weight 1): ~730 rows - fundingIntervalHours MIXED
-  (1/2/4/8h histogram ~351/3/103/273), cap 0.003-0.03, floor -0.03,
-  interestRate.
+  (1/2/4/8h live histogram 353/3/103/273), fundingFeeCap/
+  fundingFeeFloor JSON numbers (0.003..0.02 / mirror-negative; an
+  earlier note wrongly called them cap/floor), interestRate string,
+  time ms. Legacy string cap/floor accepted as fallback by the client.
 - `depth?symbol=&limit=` - weight by limit: 5/10/20/50 = 2, 100 = 5,
   500 = 10, 1000 = 20 (client snaps requests down to a priced tier).
 - `klines` / `markPriceKlines` / `indexPriceKlines` -

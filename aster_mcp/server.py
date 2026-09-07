@@ -31,7 +31,7 @@ from . import chain
 from . import rest
 
 DEFAULT_PORT = 8904
-_VERSION = "0.1.0"
+_VERSION = "0.1.1"
 
 _ADDRESS_RE = re.compile(r"^0x[0-9a-fA-F]{40}$")
 _SOLANA_RE = re.compile(r"^[1-9A-HJ-NP-Za-km-z]{32,44}$")
@@ -146,6 +146,22 @@ def _sym_info_map(exchange_info: dict) -> dict:
     return {(s or {}).get("symbol", ""): s for s in
             (exchange_info or {}).get("symbols") or []
             if isinstance(s, dict)}
+
+
+def _funding_bounds(f: dict | None) -> tuple[float | None, float | None]:
+    """(cap, floor) from a fundingInfo row. The live schema names the
+    fields fundingFeeCap/fundingFeeFloor (JSON numbers); older
+    captures used string cap/floor - both are accepted, None when
+    absent."""
+    if not isinstance(f, dict):
+        return None, None
+    cap = _f(f.get("fundingFeeCap"))
+    floor = _f(f.get("fundingFeeFloor"))
+    if cap is None:
+        cap = _f(f.get("cap"))
+    if floor is None:
+        floor = _f(f.get("floor"))
+    return cap, floor
 
 
 def _split_symbol(symbol: str) -> tuple[str, str]:
@@ -462,7 +478,10 @@ def trades(symbol: str, limit: int = 20, venue: str = "futures") -> dict:
 
 def spot_overview(limit: int = 20) -> dict:
     """Spot market overview: sapi ticker/24hr ALL joined with
-    exchangeInfo. ~68 TRADING pairs; TEST* junk filtered by name.
+    exchangeInfo. The spot ticker list carries ~24k ephemeral
+    BTC_UP_DOWN_5M_* options rows that never appear in exchangeInfo;
+    the join keeps only listed symbols with status TRADING (~68
+    pairs). TEST* junk filtered by name.
     Example: spot_overview(limit=10)
     """
     n = max(1, min(100, int(limit)))
@@ -478,6 +497,7 @@ def spot_overview(limit: int = 20) -> dict:
     smap = _sym_info_map(info)
     rows: list[dict] = []
     junk = 0
+    unlisted = 0
     for t in tickers:
         if not isinstance(t, dict):
             continue
@@ -485,7 +505,13 @@ def spot_overview(limit: int = 20) -> dict:
         if sym.startswith("TEST"):
             junk += 1
             continue
-        srow = smap.get(sym, {})
+        srow = smap.get(sym)
+        if srow is None or srow.get("status") != "TRADING":
+            # ephemeral options rows (BTC_UP_DOWN_5M_*) are not in
+            # exchangeInfo at all; BREAK/SETTLING listings are not a
+            # tradeable spot panel either
+            unlisted += 1
+            continue
         rows.append({
             "symbol": sym,
             "last_price": _f(t.get("lastPrice")),
@@ -500,10 +526,13 @@ def spot_overview(limit: int = 20) -> dict:
         "count": len(rows),
         "returned": min(n, len(rows)),
         "junk_filtered": junk,
+        "unlisted_or_not_trading_filtered": unlisted,
         "pairs": rows[:n],
         **_age("sapi", "/ticker/24hr"),
-        "note": "TEST*-named spot symbols are treated as junk and "
-                "filtered; status from sapi exchangeInfo.",
+        "note": "ticker rows are inner-joined with sapi exchangeInfo "
+                "(status TRADING only); TEST*-named junk and ~24k "
+                "ephemeral BTC_UP_DOWN_5M_* options rows are filtered "
+                "out; status/base/quote come from exchangeInfo.",
     }
 
 
@@ -536,14 +565,15 @@ def funding_overview(limit: int = 20, sort: str = "rate") -> dict:
         hours = _i(f.get("fundingIntervalHours"))
         intervals[str(hours)] = intervals.get(str(hours), 0) + 1
         rate = _f(p.get("lastFundingRate"))
+        cap, floor = _funding_bounds(f)
         rows.append({
             "symbol": sym,
             "last_funding_rate": _round(rate, 8),
             "annualized_pct": _round(rate * 24 / (hours or 8) * 365 * 100,
                                      2) if rate is not None else None,
             "interval_hours": hours,
-            "cap": _f(f.get("cap")),
-            "floor": _f(f.get("floor")),
+            "cap": cap,
+            "floor": floor,
             "interest_rate": _f(f.get("interestRate")),
             "mark_price": _f(p.get("markPrice")),
             "index_price": _f(p.get("indexPrice")),
@@ -753,8 +783,7 @@ def funding_screener(top: int = 10, direction: str = "both") -> dict:
         spread_bps = ((mark - index) / index * 10000
                       if mark is not None and index else None)
         # D1 funding_regime: headroom to cap/floor in bps
-        cap = _f(f.get("cap"))
-        floor = _f(f.get("floor"))
+        cap, floor = _funding_bounds(f)
         headroom = None
         regime = None
         if rate is not None:

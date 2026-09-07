@@ -65,7 +65,7 @@ destructiveHint: false`).
 | 3 | `order_book` | `order_book(symbol, venue="futures", depth=10)` | fapi depth / sapi api/v3 depth; limit snapped to a priced tier (weight-aware). |
 | 4 | `klines` | `klines(symbol, interval="1h", limit=100, market="futures", price_type="last")` | last/mark/index klines on fapi; spot via sapi. |
 | 5 | `trades` | `trades(symbol, limit=20, venue="futures")` | Fresh keyless trades; spot path probed live (honest error dict if dead). |
-| 6 | `spot_overview` | `spot_overview(limit=20)` | Spot pairs from sapi ticker/24hr + exchangeInfo; TEST* junk filtered. |
+| 6 | `spot_overview` | `spot_overview(limit=20)` | Spot pairs from sapi ticker/24hr inner-joined with exchangeInfo (TRADING only): ~68 pairs, TEST* junk and ~24k ephemeral options rows filtered. |
 | 7 | `funding_overview` | `funding_overview(limit=20, sort="rate")` | All ~730 rates from premiumIndex + fundingInfo: mixed 1/2/4/8h intervals (flagged), cap/floor, interestRate, nextFundingTime. |
 | 8 | `tradfi_markets` | `tradfi_markets(limit=20, window=None)` | TradFi-perp screener by asset class (metals/equity/energy/treasuries/forex) + `tradfi_crypto_corr` sub-block: local TradFi-vs-BTC correlation from klines. |
 | 9 | `funding_screener` | `funding_screener(top=10, direction="both")` | One-call ranking by annualized funding, premium, mark-index spread + `funding_regime` headroom to cap/floor. |
@@ -115,7 +115,7 @@ The suite runs 100% offline against schema-realistic fixtures in
 ```bash
 uv sync --dev
 uv run pytest -q          # offline suite
-uv run python scripts/smoke_live.py   # LIVE capture (<=10 calls), records fixtures
+uv run python scripts/smoke_live.py   # LIVE capture (<=13 calls), records fixtures
 ```
 
 Fixtures were initially hand-shaped from the documented API shapes,
