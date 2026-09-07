@@ -1,6 +1,6 @@
 [Unit]
 Description=Aster Agent Gateway - fixture recorder schedule (6h)
-Documentation=https://github.com/aster-agent-gateway/aster-agent-gateway
+Documentation=https://github.com/alekskram/aster-agent-gateway
 
 [Timer]
 # Every 6 hours; keeps tests/fixtures/ schema-realistic without

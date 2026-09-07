@@ -1,6 +1,6 @@
 [Unit]
 Description=Aster Agent Gateway - fixture recorder (one pass)
-Documentation=https://github.com/aster-agent-gateway/aster-agent-gateway
+Documentation=https://github.com/alekskram/aster-agent-gateway
 After=network-online.target
 Wants=network-online.target
 
