@@ -119,7 +119,7 @@ destructiveHint: false`).
 | 8 | `tradfi_markets` | `tradfi_markets(limit=20, window=None)` | TradFi-perp screener by asset class (metals/equity/energy/treasuries/forex) + `tradfi_crypto_corr` sub-block: local TradFi-vs-BTC correlation from klines. |
 | 9 | `funding_screener` | `funding_screener(top=10, direction="both")` | One-call ranking by annualized funding, premium, mark-index spread + `funding_regime` headroom to cap/floor. |
 | 10 | `oi_snapshot` | `oi_snapshot(symbols=None, top=10)` | Per-symbol openInterest (max 10 symbols/call). No keyless OI history (404) - stated honestly. |
-| 11 | `deposit_flows` | `deposit_flows(chain="all", limit=20)` | Solana vault signatures (keyless) + EVM vault Transfers when `ASTER_EVM_RPC_URL*` set + `deposit_stats` hourly/chain buckets. |
+| 11 | `deposit_flows` | `deposit_flows(chain_filter="all", limit=20)` | Solana vault signatures (keyless) + EVM vault Transfers when `ASTER_EVM_RPC_URL*` set + `deposit_stats` hourly/chain buckets. |
 | 12 | `account_view` | `account_view(address, data="balance")` | tapi `aster_getBalance`/`openOrders`/`userFills` keyless for any address; privacy-empty returns an honest error dict explaining why. |
 | 13 | `mark_index_divergence` | `mark_index_divergence(limit=20)` | mark vs index spread screener from ONE premiumIndex call + markPriceKlines-vs-klines crosscheck on the top 3. |
 
