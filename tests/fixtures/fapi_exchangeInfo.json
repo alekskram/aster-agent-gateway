@@ -1,6 +1,6 @@
 {
  "timezone": "UTC",
- "serverTime": 1788693279133,
+ "serverTime": 1788758484456,
  "futuresType": "U_MARGINED",
  "rateLimits": [
   {
@@ -16392,7 +16392,7 @@
     "Commodities"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Gold",
    "channel": "forex",
    "sequenceNo": 0,
@@ -19376,7 +19376,7 @@
     "Commodities"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Silver",
    "channel": "forex",
    "sequenceNo": 0,
@@ -23853,7 +23853,7 @@
     "Commodities"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Copper",
    "channel": "forex",
    "sequenceNo": 0,
@@ -23948,7 +23948,7 @@
     "Commodities"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Platinum",
    "channel": "forex",
    "sequenceNo": 0,
@@ -24042,7 +24042,7 @@
     "Commodities"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Palladium",
    "channel": "forex",
    "sequenceNo": 0,
@@ -27229,7 +27229,7 @@
     "Commodities"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Crude Oil",
    "channel": "forex",
    "sequenceNo": 0,
@@ -27508,7 +27508,7 @@
     "Commodities"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Natural Gas",
    "channel": "forex",
    "sequenceNo": 0,
@@ -35255,7 +35255,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "\u6ce1\u6ce1\u739b\u7279",
    "channel": "hkstock",
    "sequenceNo": 0,
@@ -35350,7 +35350,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "\u5c0f\u7c73\u96c6\u56e2-W",
    "channel": "hkstock",
    "sequenceNo": 0,
@@ -35444,7 +35444,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "MINIMAX-WP",
    "channel": "hkstock",
    "sequenceNo": 0,
@@ -35538,7 +35538,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "\u817e\u8baf\u63a7\u80a1",
    "channel": "hkstock",
    "sequenceNo": 0,
@@ -37847,7 +37847,7 @@
     "Commodities"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Brent Oil",
    "channel": "forex",
    "sequenceNo": 0,
@@ -40380,7 +40380,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "krstock",
    "sequenceNo": 0,
@@ -40471,7 +40471,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "krstock",
    "sequenceNo": 0,
@@ -40563,7 +40563,7 @@
     "Semiconductor"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "krstock",
    "sequenceNo": 0,
@@ -40655,7 +40655,7 @@
     "Semiconductor"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "krstock",
    "sequenceNo": 0,
@@ -41470,7 +41470,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "krstock",
    "sequenceNo": 0,
@@ -44562,7 +44562,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "hkstock",
    "sequenceNo": 0,
@@ -47439,7 +47439,7 @@
     "Semiconductor"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "astock",
    "sequenceNo": 0,
@@ -48335,7 +48335,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "astock",
    "sequenceNo": 0,
@@ -49065,7 +49065,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "hkstock",
    "sequenceNo": 0,
@@ -49157,7 +49157,7 @@
     "STOCK"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "hkstock",
    "sequenceNo": 0,
@@ -49609,7 +49609,7 @@
     "USD1-RWA"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "",
    "channel": "krstock",
    "sequenceNo": 0,
@@ -49795,7 +49795,7 @@
     "USD1-RWA"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Crude Oil",
    "channel": "forex",
    "sequenceNo": 0,
@@ -49988,7 +49988,7 @@
     "USD1-RWA"
    ],
    "symbolType": 1,
-   "tradingMode": 1,
+   "tradingMode": 0,
    "name": "Gold",
    "channel": "forex",
    "sequenceNo": 0,
@@ -51311,7 +51311,7 @@
     "GTX",
     "HIDDEN"
    ],
-   "createTime": 1788508157901,
+   "createTime": 1788508157900,
    "pair": "MEMEUSDT",
    "contractType": "PERPETUAL",
    "deliveryDate": 4133404800000,
@@ -51400,7 +51400,7 @@
     "GTX",
     "HIDDEN"
    ],
-   "createTime": 1788611380766,
+   "createTime": 1788611380765,
    "pair": "SHROOMUSDT",
    "contractType": "PERPETUAL",
    "deliveryDate": 4133404800000,
@@ -51491,7 +51491,7 @@
     "GTX",
     "HIDDEN"
    ],
-   "createTime": 1788625217648,
+   "createTime": 1788625217647,
    "pair": "STONKSUSDT",
    "contractType": "PERPETUAL",
    "deliveryDate": 4133404800000,
@@ -51580,7 +51580,7 @@
     "GTX",
     "HIDDEN"
    ],
-   "createTime": 1788669036793,
+   "createTime": 1788669036792,
    "pair": "PAIRUSDT",
    "contractType": "PERPETUAL",
    "deliveryDate": 4133404800000,
@@ -51758,7 +51758,7 @@
     "GTX",
     "HIDDEN"
    ],
-   "createTime": 1788686535752,
+   "createTime": 1788686535751,
    "pair": "MEMESTOCKUSDT",
    "contractType": "PERPETUAL",
    "deliveryDate": 4133404800000,
@@ -51872,7 +51872,7 @@
    "channel": "{}",
    "sequenceNo": 0,
    "twapMinNotional": "1000",
-   "imn": null,
+   "imn": "1000.00",
    "tags": [],
    "settlePlan": 0,
    "triggerProtect": "0.1000",
@@ -51913,8 +51913,8 @@
      "filterType": "MIN_NOTIONAL"
     },
     {
-     "multiplierDown": "0.9000",
-     "multiplierUp": "1.1000",
+     "multiplierDown": "0.8000",
+     "multiplierUp": "1.2000",
      "ltMultiplierDown": "0.9000",
      "multiplierDecimal": "4",
      "filterType": "PERCENT_PRICE",
@@ -51936,7 +51936,7 @@
     "GTX",
     "HIDDEN"
    ],
-   "createTime": 1788692905346,
+   "createTime": 1788692905345,
    "pair": "ZCATUSDT",
    "contractType": "PERPETUAL",
    "deliveryDate": 4133404800000,
@@ -51961,10 +51961,99 @@
    "channel": "{}",
    "sequenceNo": 0,
    "twapMinNotional": "1000",
-   "imn": null,
+   "imn": "1000.00",
    "tags": [
     "Anonymous Cat"
    ],
+   "settlePlan": 0,
+   "triggerProtect": "0.2000",
+   "liquidationFee": "0.025000",
+   "marketTakeBound": "0.20"
+  },
+  {
+   "symbol": "BREWUSDT",
+   "filters": [
+    {
+     "minPrice": "0.0000100",
+     "maxPrice": "200",
+     "filterType": "PRICE_FILTER",
+     "tickSize": "0.0000100"
+    },
+    {
+     "stepSize": "1",
+     "filterType": "LOT_SIZE",
+     "maxQty": "500000",
+     "minQty": "1"
+    },
+    {
+     "stepSize": "1",
+     "filterType": "MARKET_LOT_SIZE",
+     "maxQty": "50000",
+     "minQty": "1"
+    },
+    {
+     "limit": 200,
+     "filterType": "MAX_NUM_ORDERS"
+    },
+    {
+     "limit": 10,
+     "filterType": "MAX_NUM_ALGO_ORDERS"
+    },
+    {
+     "notional": "5",
+     "filterType": "MIN_NOTIONAL"
+    },
+    {
+     "multiplierDown": "0.9000",
+     "multiplierUp": "1.1000",
+     "ltMultiplierDown": "0.9000",
+     "multiplierDecimal": "4",
+     "filterType": "PERCENT_PRICE",
+     "ltMultiplierUp": "1.1000"
+    }
+   ],
+   "orderTypes": [
+    "LIMIT",
+    "MARKET",
+    "STOP",
+    "STOP_MARKET",
+    "TAKE_PROFIT",
+    "TAKE_PROFIT_MARKET",
+    "TRAILING_STOP_MARKET"
+   ],
+   "timeInForce": [
+    "GTC",
+    "IOC",
+    "GTX",
+    "HIDDEN"
+   ],
+   "createTime": 1788754288873,
+   "pair": "BREWUSDT",
+   "contractType": "PERPETUAL",
+   "deliveryDate": 4133404800000,
+   "onboardDate": 1788755400000,
+   "status": "TRADING",
+   "maintMarginPercent": "25.0000",
+   "requiredMarginPercent": "50.0000",
+   "baseAsset": "BREW",
+   "quoteAsset": "USDT",
+   "marginAsset": "USDT",
+   "pricePrecision": 7,
+   "quantityPrecision": 0,
+   "baseAssetPrecision": 8,
+   "quotePrecision": 8,
+   "underlyingType": "COIN",
+   "underlyingSubType": [
+    "Meme"
+   ],
+   "symbolType": 0,
+   "tradingMode": 0,
+   "name": "",
+   "channel": "{}",
+   "sequenceNo": 0,
+   "twapMinNotional": "1000",
+   "imn": null,
+   "tags": [],
    "settlePlan": 0,
    "triggerProtect": "0.1000",
    "liquidationFee": "0.025000",

@@ -1,6 +1,6 @@
 [project]
 name = "aster-agent-gateway"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP gateway for AI agents to Aster DEX public data: futures and spot market overviews, order books, klines, funding and TradFi-perp screeners, vault deposit flows, public account views. Read-only, keyless."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -207,7 +207,10 @@ class TestExchangeSymbols:
         out = srv.exchange_symbols(venue="spot")
         names = {r["symbol"] for r in out["spot"]["symbols"]}
         assert not any(n.startswith("TEST") for n in names)
-        assert out["spot"]["junk_filtered"] == 2
+        n_test = sum(1 for s in S_INFO["symbols"]
+                     if s["symbol"].startswith("TEST"))
+        assert n_test >= 2  # fixture carries real TEST* listings
+        assert out["spot"]["junk_filtered"] == n_test
 
     def test_single_symbol_detail(self, mock_rest):
         out = srv.exchange_symbols(venue="futures", symbol="BTCUSDT")
@@ -329,8 +332,30 @@ class TestSpotOverview:
         syms = [r["symbol"] for r in out["pairs"]]
         assert "BTCUSDT" in syms
         assert not any(s.startswith("TEST") for s in syms)
-        assert out["junk_filtered"] == 1
-        assert out["count"] == 2
+        n_junk = sum(1 for t in S_TICKERS
+                     if t.get("symbol", "").startswith("TEST"))
+        assert out["junk_filtered"] == n_junk >= 1
+        trading = {s["symbol"] for s in S_INFO["symbols"]
+                   if s.get("status") == "TRADING"}
+        expected = {t["symbol"] for t in S_TICKERS
+                    if t.get("symbol") in trading
+                    and not t["symbol"].startswith("TEST")}
+        assert out["count"] == len(expected)
+
+    def test_ephemeral_options_rows_filtered(self, mock_rest):
+        # the live spot ticker list carries ~24k BTC_UP_DOWN_5M_* and
+        # EVENT_* options rows; the exchangeInfo join must drop them
+        out = srv.spot_overview(limit=100)
+        syms = [r["symbol"] for r in out["pairs"]]
+        assert not any("_UP_DOWN_" in s or s.startswith("EVENT") 
+                       for s in syms)
+        n_eph = sum(1 for t in S_TICKERS
+                    if t.get("symbol", "") not in
+                    {s["symbol"] for s in S_INFO["symbols"]})
+        assert out["unlisted_or_not_trading_filtered"] == n_eph
+        # every kept row carries exchangeInfo fields
+        assert all(r["status"] == "TRADING" and r["base"]
+                   for r in out["pairs"])
 
     def test_sorted_by_volume(self, mock_rest):
         out = srv.spot_overview(limit=2)
@@ -351,18 +376,60 @@ class TestSpotOverview:
         assert out["error"] and out["source"] == "sapi"
 
 
+def _premium_with(sym: str, rate: str) -> list:
+    """Focused premiumIndex list: the live row for `sym` with its rate
+    pinned (fixture rates drift between captures; pinning keeps these
+    tests deterministic without leaving the real schema)."""
+    row = next(dict(p) for p in F_PREMIUM if p["symbol"] == sym)
+    row["lastFundingRate"] = rate
+    return [row]
+
+
 class TestFundingOverview:
-    def test_rows_join_premium_and_fundinginfo(self, mock_rest):
+    def test_rows_join_premium_and_fundinginfo(self, mock_rest,
+                                                 monkeypatch):
+        monkeypatch.setattr(rest, "premium_index",
+                          lambda symbol=None:
+                          _premium_with("BTCUSDT", "0.00090000"))
         out = srv.funding_overview(limit=100)
         btc = next(r for r in out["funding"]
                    if r["symbol"] == "BTCUSDT")
         assert btc["interval_hours"] == 8
-        assert btc["cap"] == 0.03
-        assert btc["floor"] == -0.03
-        assert btc["interest_rate"] == 0.0001
-        sushi = next(r for r in out["funding"]
+        # live schema: fundingFeeCap/fundingFeeFloor JSON numbers
+        assert btc["cap"] == 0.003
+        assert btc["floor"] == -0.003
+        assert 0 <= btc["interest_rate"] < 0.001
+        # SUSHIUSDT live row: 1h interval, cap 0.02 (live schema)
+        sushi_f = next(f for f in F_FUNDING
+                       if f["symbol"] == "SUSHIUSDT")
+        assert sushi_f["fundingIntervalHours"] == 1
+        assert float(sushi_f["fundingFeeCap"]) == 0.02
+        monkeypatch.setattr(rest, "premium_index",
+                            lambda symbol=None:
+                            _premium_with("SUSHIUSDT", "0.001"))
+        out2 = srv.funding_overview(limit=100)
+        sushi = next(r for r in out2["funding"]
                      if r["symbol"] == "SUSHIUSDT")
-        assert sushi["interval_hours"] == 8
+        assert sushi["interval_hours"] == 1
+        assert sushi["cap"] == 0.02
+
+    def test_funding_bounds_legacy_string_fields(self, mock_rest,
+                                                 monkeypatch):
+        # older captures named the fields cap/floor (strings) - the
+        # fallback must keep them working
+        legacy = [{"symbol": r["symbol"],
+                   "fundingIntervalHours": r["fundingIntervalHours"],
+                   "cap": "0.03", "floor": "-0.03",
+                   "interestRate": r["interestRate"]}
+                  for r in F_FUNDING]
+        monkeypatch.setattr(rest, "funding_info", lambda: legacy)
+        monkeypatch.setattr(rest, "premium_index",
+                          lambda symbol=None:
+                          _premium_with("BTCUSDT", "0.00090000"))
+        out = srv.funding_overview(limit=100)
+        btc = next(r for r in out["funding"]
+                   if r["symbol"] == "BTCUSDT")
+        assert btc["cap"] == 0.03 and btc["floor"] == -0.03
 
     def test_mixed_interval_histogram(self, mock_rest):
         out = srv.funding_overview(limit=100)
@@ -372,27 +439,32 @@ class TestFundingOverview:
         assert hist.get("4") >= 1 and hist.get("1") >= 1
         assert len(hist) >= 3  # mixed intervals really present
 
-    def test_annualized_uses_own_interval(self, mock_rest):
+    def test_annualized_uses_own_interval(self, mock_rest,
+                                           monkeypatch):
+        monkeypatch.setattr(rest, "premium_index",
+                          lambda symbol=None:
+                          _premium_with("BTCUSDT", "0.00090000"))
         out = srv.funding_overview(limit=100)
         btc = next(r for r in out["funding"]
                    if r["symbol"] == "BTCUSDT")
-        rate = next(p["lastFundingRate"] for p in F_PREMIUM
-                    if p["symbol"] == "BTCUSDT")
-        exp = float(rate) * 24 / 8 * 365 * 100
+        # rate was pinned to 0.0009 by _premium_with above
+        exp = 0.0009 * 24 / 8 * 365 * 100
         assert abs(btc["annualized_pct"] - exp) < 0.01
 
-    def test_missing_fundinginfo_row_has_nulls(self, mock_rest):
-        out = srv.funding_overview(limit=100)
-        # ETHUSDT present in premium, and both exist; use NOMAP check:
-        # NOMAPUSDT is in fundingInfo only, never in rows; instead check
-        # a premium row without fundingInfo entry would be null - F_PREMIUM
-        # has all mapped, so assert no crash + all rows parse
+    def test_missing_fundinginfo_row_has_nulls(self, mock_rest,
+                                               monkeypatch):
         # premium rows missing from fundingInfo -> null interval fields
-        unmapped = [r for r in out["funding"]
-                    if r["symbol"] not in
-                    {f["symbol"] for f in F_FUNDING}]
-        assert unmapped and all(r["interval_hours"] is None
-                                for r in unmapped)
+        monkeypatch.setattr(rest, "premium_index",
+                            lambda symbol=None:
+                            _premium_with("BTCUSDT", "0.00090000"))
+        monkeypatch.setattr(rest, "funding_info",
+                            lambda: [f for f in F_FUNDING
+                                     if f["symbol"] != "BTCUSDT"])
+        out = srv.funding_overview(limit=100)
+        btc = next(r for r in out["funding"]
+                   if r["symbol"] == "BTCUSDT")
+        assert btc["interval_hours"] is None
+        assert btc["cap"] is None and btc["floor"] is None
 
     def test_sort_by_rate_abs(self, mock_rest):
         out = srv.funding_overview(limit=3)
@@ -454,30 +526,52 @@ class TestTradfiMarkets:
 
 
 class TestFundingScreener:
-    def test_ranking_and_regime(self, mock_rest):
+    def test_ranking_and_regime(self, mock_rest, monkeypatch):
+        monkeypatch.setattr(rest, "premium_index",
+                          lambda symbol=None:
+                          _premium_with("BTCUSDT", "0.00090000"))
         out = srv.funding_screener(top=5)
         top = out["top_by_annualized_rate"]
-        assert len(top) == 5
-        # SUSHIUSDT patched to rate 0.003 with cap 0.003 -> near-cap
-        near = next((r for r in top if r["symbol"] == "SUSHIUSDT"), None)
-        assert near is not None
+        assert len(top) == 1  # focused single-row premium list
+        # live rows carry non-null cap/floor/regime (fundingFeeCap/
+        # fundingFeeFloor schema) - headroom is computable everywhere
+        assert all(r["funding_regime"]["cap"] is not None
+                   and r["funding_regime"]["floor"] is not None
+                   and r["funding_regime"]["regime"] is not None
+                   and r["funding_regime"]["headroom_bps"] is not None
+                   for r in top)
+        btc = top[0]
+        # BTC 8h small rate vs 0.003 cap -> normal, positive headroom
+        assert btc["symbol"] == "BTCUSDT"
+        assert btc["funding_regime"]["regime"] == "normal"
+        assert btc["funding_regime"]["headroom_bps"] > 10
+
+    def test_near_cap_when_rate_hits_cap(self, mock_rest,
+                                          monkeypatch):
+        # SUSHIUSDT 1h row with rate pinned to its 0.02 cap -> zero
+        # headroom -> near-cap
+        monkeypatch.setattr(rest, "premium_index",
+                          lambda symbol=None:
+                          _premium_with("SUSHIUSDT", "0.02"))
+        out = srv.funding_screener(top=10)
+        near = next(r for r in out["top_by_annualized_rate"]
+                    if r["symbol"] == "SUSHIUSDT")
         assert near["funding_regime"]["regime"] == "near-cap"
         assert near["funding_regime"]["headroom_bps"] == 0.0
-        # BTCUSDT 8h small rate -> normal (top=50 covers it)
-        out50 = srv.funding_screener(top=50)
-        btc = next(r for r in out50["top_by_annualized_rate"]
-                   if r["symbol"] == "BTCUSDT")
-        assert btc["funding_regime"]["regime"] == "normal"
 
-    def test_negative_headroom_near_floor(self, mock_rest):
+    def test_negative_headroom_near_floor(self, mock_rest,
+                                           monkeypatch):
+        # TRUTHUSDT 1h row with rate pinned just above its -0.02
+        # floor (-0.0199 -> 1 bp of headroom) -> near-floor
+        monkeypatch.setattr(rest, "premium_index",
+                          lambda symbol=None:
+                          _premium_with("TRUTHUSDT", "-0.0199"))
         out = srv.funding_screener(top=10)
-        # TRUTHUSDT patched to -0.00305 past floor -0.0031? no: above
-        # floor but within 5 bps -> near-floor
-        f2 = next((r for r in out["top_by_annualized_rate"]
-                   if r["symbol"] == "TRUTHUSDT"), None)
-        assert f2 is not None
+        f2 = next(r for r in out["top_by_annualized_rate"]
+                  if r["symbol"] == "TRUTHUSDT")
         assert f2["funding_regime"]["regime"] == "near-floor"
         assert f2["funding_rate"] < 0
+        assert f2["funding_regime"]["headroom_bps"] < 5
 
     def test_direction_filter(self, mock_rest):
         out = srv.funding_screener(top=10, direction="long")

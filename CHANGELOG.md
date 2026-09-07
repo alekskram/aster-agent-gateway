@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.1 (2026-09-07)
+
+- Fixed: funding cap/floor now read the live `fundingFeeCap` /
+  `fundingFeeFloor` field names (legacy string `cap`/`floor` kept as
+  fallback), so `funding_regime` headroom/regime are non-null on live
+  data in `funding_overview` and `funding_screener`.
+- Fixed: `spot_overview` inner-joins sapi ticker/24hr with
+  exchangeInfo (status TRADING only) - the ~24k ephemeral
+  `BTC_UP_DOWN_5M_*` / `EVENT_*` options rows no longer inflate the
+  count (now ~68 pairs); a new `unlisted_or_not_trading_filtered`
+  counter reports what was dropped.
+- Fixtures refreshed from live captures (fundingInfo 732 rows in the
+  new schema; sapi exchangeInfo 68 symbols; sapi ticker sampled -
+  listed rows verbatim + 200 ephemeral rows).
+- `scripts/smoke_live.py` budget 10 -> 13 calls: fundingInfo, sapi
+  exchangeInfo and sapi ticker/24hr ALL added with live D1 regime and
+  spot ephemeral-filter assertions.
+
 ## 0.1.0 (2026-09-06)
 
 Initial release.

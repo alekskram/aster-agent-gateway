@@ -44,7 +44,7 @@ JOBS = [
     ("fapi_openInterest_btcusdt", "fapi",
      lambda: rest.open_interest("BTCUSDT")),
     ("sapi_exchangeInfo", "sapi", lambda: rest.sapi_exchange_info()),
-    ("sapi_ticker24hr_all", "sapi", lambda: rest.sapi_tickers()),
+    ("sapi_ticker24hr_all", "sapi", lambda: _spot_ticker_sample()),
     ("sapi_klines_btcusdt", "sapi",
      lambda: rest.klines("BTCUSDT", "1h", 24, market="spot")),
     ("sapi_depth_btcusdt", "sapi",
@@ -52,6 +52,20 @@ JOBS = [
     ("solana_vault_signatures", "solana",
      lambda: chain.solana_vault_signatures(20)),
 ]
+
+
+def _spot_ticker_sample() -> list:
+    """sapi ticker/24hr ALL sampled for the fixture: every listed row
+    plus the first 200 ephemeral options rows (the raw live list is
+    ~10 MB of BTC_UP_DOWN_5M_* noise). smoke_live.py does the same."""
+    tickers = rest.sapi_tickers()
+    listed = {s.get("symbol") for s in
+              (rest.sapi_exchange_info() or {}).get("symbols") or []}
+    keep = [t for t in tickers if isinstance(t, dict)
+            and t.get("symbol") in listed]
+    ephem = [t for t in tickers if isinstance(t, dict)
+             and t.get("symbol") not in listed]
+    return keep + ephem[:200]
 
 
 def record(out_dir: Path, only: list[str] | None = None) -> int:
