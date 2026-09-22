@@ -3,7 +3,7 @@
   "name": "io.github.alekskram/aster-agent-gateway",
   "title": "Aster Agent Gateway",
   "description": "Read-only MCP gateway to Aster DEX: ~580 futures incl. TradFi 24/7, funding caps, vault flows.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "tools": [
     {
       "name": "funding_overview",
@@ -30,7 +30,7 @@
     {
       "registryType": "pypi",
       "identifier": "aster-agent-gateway",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "transport": {
         "type": "stdio"
       }
