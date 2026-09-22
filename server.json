@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.alekskram/aster-agent-gateway",
+  "title": "Aster Agent Gateway",
+  "description": "Read-only MCP gateway to Aster DEX: ~580 futures including 24/7 TradFi perps, spot, funding with caps/floors and per-market intervals, order books, klines, vault flows. No keys.",
+  "version": "0.1.2",
+  "tools": [
+    {"name": "funding_overview", "description": "All funding rates ranked by annualized rate with regime and caps"},
+    {"name": "market_overview", "description": "Futures board: mark, index, OI, volume across crypto and TradFi perps"},
+    {"name": "order_book", "description": "Depth snapshot with spread and mid"},
+    {"name": "deposit_flows", "description": "Vault deposit flows: who is parking capital where"},
+    {"name": "mark_index_divergence", "description": "Spot index dislocations: mark vs index divergence ranking"}
+  ],
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "aster-agent-gateway",
+      "version": "0.1.2",
+      "transport": {"type": "stdio"}
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/alekskram/aster-agent-gateway",
+    "source": "github"
+  }
+}

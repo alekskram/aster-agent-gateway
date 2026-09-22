@@ -1,5 +1,7 @@
 # aster-agent-gateway
 
+<!-- mcp-name: io.github.alekskram/aster-agent-gateway -->
+
 [![CI](https://github.com/alekskram/aster-agent-gateway/actions/workflows/tests.yml/badge.svg)](https://github.com/alekskram/aster-agent-gateway/actions/workflows/tests.yml)
 [![PyPI](https://img.shields.io/pypi/v/aster-agent-gateway.svg)](https://pypi.org/project/aster-agent-gateway/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/aster-agent-gateway?label=downloads)](https://pypi.org/project/aster-agent-gateway/)
