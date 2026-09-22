@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/alekskram/aster-agent-gateway/actions/workflows/tests.yml/badge.svg)](https://github.com/alekskram/aster-agent-gateway/actions/workflows/tests.yml)
 [![PyPI](https://img.shields.io/pypi/v/aster-agent-gateway.svg)](https://pypi.org/project/aster-agent-gateway/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/aster-agent-gateway?label=downloads)](https://pypi.org/project/aster-agent-gateway/)
+[![MCP Catalog](https://img.shields.io/badge/MCP_Catalog-glama.ai-4f46e5)](https://glama.ai/mcp/servers/alekskram/aster-agent-gateway)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
 
@@ -28,6 +30,11 @@ Full walkthroughs: [examples/use-cases.md](examples/use-cases.md).
 
 ## Quickstart
 
+**Claude Code:**
+```bash
+claude mcp add aster -- uvx aster-agent-gateway
+```
+
 stdio (default, for local agents):
 
 ```bash
@@ -50,18 +57,16 @@ Claude Desktop / Cursor config:
   "mcpServers": {
     "aster": {
       "command": "uvx",
-      "args": ["--from",
-               "git+https://github.com/alekskram/aster-agent-gateway",
-               "aster-agent-gateway"]
+      "args": ["aster-agent-gateway"]
     }
   }
 }
 ```
 
-Hosted form - streamable HTTP on port **8904**:
+Hosted form — streamable HTTP on port **8904**:
 
 ```bash
-uv run aster-agent-gateway --http            # 127.0.0.1:8904
+uvx aster-agent-gateway --http             # 127.0.0.1:8904
 curl http://127.0.0.1:8904/health   # -> {"ok": true, "service": "aster-agent-gateway", ...}
 ```
 
@@ -96,12 +101,6 @@ PY
 ```
 </details>
 
-Hosted form — streamable HTTP on port **8904**:
-
-```bash
-uvx aster-agent-gateway --http
-```
-
 ## Tools
 
 All 13 tools are read-only (annotated `readOnlyHint: true,
@@ -122,6 +121,17 @@ destructiveHint: false`).
 | 11 | `deposit_flows` | `deposit_flows(chain_filter="all", limit=20)` | Solana vault signatures (keyless) + EVM vault Transfers when `ASTER_EVM_RPC_URL*` set + `deposit_stats` hourly/chain buckets. |
 | 12 | `account_view` | `account_view(address, data="balance")` | tapi `aster_getBalance`/`openOrders`/`userFills` keyless for any address; privacy-empty returns an honest error dict explaining why. |
 | 13 | `mark_index_divergence` | `mark_index_divergence(limit=20)` | mark vs index spread screener from ONE premiumIndex call + markPriceKlines-vs-klines crosscheck on the top 3. |
+
+## Why a gateway and not the raw API?
+
+Aster's `fapi`/`sapi`/`tapi` endpoints are plain REST — the traps are in the semantics:
+
+| Raw API gives you | You would have to build |
+|---|---|
+| per-market funding intervals that differ (1h to 8h) | correct annualization per symbol — a naive ×24×365 overstates 8h markets by 8× |
+| funding cap/floor fields under live vs legacy names | name negotiation with fallback (this gateway reads `fundingFeeCap`/`FundingFeeFloor` and degrades honestly) |
+| ~580 symbols mixing crypto, TradFi 24/7 perps and spot | chain/asset-class filtering, spot index dislocation ranking, capacity filtering where OI is not published |
+| three separate API surfaces (futures/spot/tapi) + Solana | one tool surface with consistent symbol handling and per-field source tags |
 
 ## Rate limits
 
@@ -156,6 +166,19 @@ tickers 15s, depth 5s, klines 60s, trades 10s, openInterest 30s.
 - Cached responses carry `age_seconds` / `fetched_at` freshness
   fields.
 
+
+## Part of the suite
+
+Four sibling read-only MCP gateways, one style — keyless, cached, honest degradation:
+
+| Gateway | Focus |
+|---|---|
+| [dydx-agent-gateway](https://github.com/alekskram/dydx-agent-gateway) | dYdX v4: verified trader PnL, funding/OI anomaly detectors, leaderboard |
+| [arcus-agent-gateway](https://github.com/alekskram/arcus-agent-gateway) | 194 tokenized US equities on Robinhood Chain: quotes, holders, whale transfers |
+| [hyperliquid-agent-gateway](https://github.com/alekskram/hyperliquid-agent-gateway) | Hyperliquid: 233 perps + spot, funding carry, account risk, HyperEVM |
+| **aster-agent-gateway** (you are here) | Aster DEX: ~580 futures incl. 24/7 TradFi perps, funding caps/floors |
+
+All four are on [glama.ai](https://glama.ai/mcp/servers/alekskram/aster-agent-gateway) and PyPI — install any of them with `uvx <name>`.
 
 ## License
 
