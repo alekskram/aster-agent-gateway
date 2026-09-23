@@ -1,12 +1,12 @@
 # Real Trading Problems Solved
 
-Four scenarios on 756 funding markets and 24/7 TradFi perps — single MCP
-calls, real captures from 2026-09-22, lightly shortened.
+Four scenarios on 756 funding markets and the 24/7 TradFi board. Real
+captures from 2026-09-22, lightly shortened.
 
-## 1. "Where are the funding extremes — properly annualized?"
+## 1. "Where are the funding extremes, properly annualized?"
 
-**Pain:** Funding intervals differ per market (1h/4h/8h). A naive ×24×365
-overstates 8h markets by 8×. You need the true annualized board.
+Funding intervals differ per market, 1h to 8h. Annualize everything at ×24×365
+and an 8h market reads 8x too cold; the true board needs per-market math.
 
 ```
 → funding_overview()
@@ -20,15 +20,14 @@ overstates 8h markets by 8×. You need the true annualized board.
   every row carries interval_hours, cap/floor and next_funding_time
 ```
 
-**Why it matters:** each row's `annualized_pct` is computed from that
-market's own interval — the rate that looks tame on a 1h market and the one
-that looks extreme may be the same trade. Caps and floors come from the live
-field names with a legacy fallback, so you also know when the rate is
-capped (no infinite carry illusions).
+Every row's `annualized_pct` uses its own interval, so a tame-looking 1h
+rate and a scary-looking 8h one can be the same trade. Caps and floors are
+read from the live field names with a legacy fallback, which also tells you
+when a rate is sitting at its cap instead of promising infinite carry.
 
 ## 2. "Trade gold and oil at 3am?"
 
-**Pain:** TradFi is closed; the position idea is now.
+TradFi is closed. The idea won't wait for the open.
 
 ```
 → tradfi_markets()
@@ -42,14 +41,14 @@ capped (no infinite carry illusions).
   next to crypto in one consistent API
 ```
 
-**Why it matters:** this is the differentiator — TradFi exposure on crypto
- rails with crypto-style funding analytics. CLUSD1's negative funding means
- the carry pays the long side: an unusual TradFi posture worth seeing at a
- glance.
+This is the part no other venue offers: TradFi exposure on crypto rails with
+funding analytics attached. Note CLUSD1's negative funding, meaning the carry
+pays the long side. That posture is worth noticing at a glance.
 
 ## 3. "Which markets are dislocated from their index?"
 
-**Pain:** Perp mark drifting from index = squeeze fuel or stale oracle.
+A perp mark drifting from its index is either squeeze fuel or a stale oracle.
+Worth knowing which one, and where.
 
 ```
 → mark_index_divergence()
@@ -61,13 +60,13 @@ capped (no infinite carry illusions).
   all 756 markets ranked by |spread_bps|
 ```
 
-**Why it matters:** RTXUSDT simultaneously tops the funding board and the
-divergence board — that coincidence (hot funding + 5% mark premium) is the
-classic pre-squeeze signature. One ranking, the whole venue.
+RTXUSDT tops the funding board and the divergence board at the same time.
+Hot funding plus a 5% mark premium is the classic pre-squeeze picture, and one
+ranking over the whole venue surfaces it.
 
 ## 4. "What is the real open interest?"
 
-**Pain:** Most gateways guess OI or serve stale aggregates.
+Most gateways guess OI, or serve aggregates of unknown age.
 
 ```
 → oi_snapshot()
@@ -78,7 +77,7 @@ classic pre-squeeze signature. One ranking, the whole venue.
   per-symbol fresh calls (max 10 per invocation), each row age-stamped
 ```
 
-**Why it matters:** the tool is honest about its own limits: keyless OI
-history does not exist on Aster (`openInterestHist` 404s), so it serves
-fresh per-symbol snapshots with `age_seconds` — and says so in every
-response, instead of pretending to have a history it cannot get.
+The tool is upfront about its limits: keyless OI history simply doesn't
+exist on Aster (`openInterestHist` 404s), so it serves fresh per-symbol
+snapshots with `age_seconds` and repeats that caveat in every response,
+instead of pretending to a history it can't get.

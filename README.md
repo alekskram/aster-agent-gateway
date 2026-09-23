@@ -9,24 +9,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
 
-An MCP (Model Context Protocol) server that gives AI agents read-only,
-keyless access to **Aster DEX** public data - ~580 futures symbols
-(including 24/7 TradFi perps: metals, equity indices, energy,
-treasuries), ~68 spot pairs, funding, order books, klines, vault
-deposit flows and tapi account views. No API keys, no auth, no
-signing, no writes: every tool reads public endpoints only
-(`fapi.asterdex.com/fapi/v3`, `sapi.asterdex.com/api/v3`,
-`tapi.asterdex.com/info`, `api.mainnet-beta.solana.com`, plus optional
-EVM RPCs), cached and rate-limited so an enthusiastic agent cannot
-hammer the upstream.
+Aster lists roughly 580 futures, and about 32 of them are things you would not expect on a crypto DEX: gold, oil, treasuries, single equities and index perps that trade 24/7 while the underlying market sleeps. This MCP server puts the whole board, plus ~68 spot pairs, funding, order books, klines and vault deposit flows, in front of an AI agent. Read-only and keyless; public endpoints only (`fapi.asterdex.com/fapi/v3`, `sapi.asterdex.com/api/v3`, `tapi.asterdex.com/info`, Solana RPC, optional EVM RPCs), cached and rate-limited.
 
 ## Use cases
 
-- **Screen 731 funding rates in one call** — ranked by annualized rate with funding regime and mark/index spread; the 793% outliers are visible instantly
-- **Trade TradFi 24/7** — metals, equity indices, energy, treasuries perps next to crypto, one consistent API
-- **Follow the vault money** — deposit flows per vault: who is parking capital where
-- **Spot index dislocations** — mark vs index divergence ranking across the whole board
-- **Morning scan** — market overview + funding overview + OI snapshot, three cheap calls
+Funding first, because this is where Aster is different. Intervals vary per market, 1h to 8h; annualize naively and an 8h market reads 8x too cold. The screener computes every row from its own interval and shows cap/floor next to it, so a 4,148%/yr print comes with the context that explains it.
+
+Then the TradFi board at 3am: gold at $4,365 with live volume, oil paying longs to hold (negative funding, -0.0001%/1h when we looked), Micron up 4.8% overnight. One API, same conventions as the crypto rows.
+
+`mark_index_divergence` ranks all ~756 markets by mark-vs-index spread. The morning we captured it, RTXUSDT topped both that board (505 bps rich) and the funding board at once, which is the classic pre-squeeze picture. Vault deposit flows show who parks capital where; OI snapshots are per-symbol and honest about the fact that Aster has no keyless OI history.
 
 Full walkthroughs: [examples/use-cases.md](examples/use-cases.md).
 
@@ -65,7 +56,7 @@ Claude Desktop / Cursor config:
 }
 ```
 
-Hosted form — streamable HTTP on port **8904**:
+Hosted form, streamable HTTP on port **8904**:
 
 ```bash
 uvx aster-agent-gateway --http             # 127.0.0.1:8904
@@ -83,7 +74,7 @@ args = ["aster-agent-gateway"]
 </details>
 
 <details>
-<summary><b>ZCode</b> — register the server (copy-paste)</summary>
+<summary><b>ZCode</b>: register the server (copy-paste)</summary>
 
 ```bash
 # 1) start the gateway (keep it running)
@@ -126,11 +117,11 @@ destructiveHint: false`).
 
 ## Why a gateway and not the raw API?
 
-Aster's `fapi`/`sapi`/`tapi` endpoints are plain REST — the traps are in the semantics:
+Aster's `fapi`/`sapi`/`tapi` endpoints are plain REST. The traps are in the semantics:
 
 | Raw API gives you | You would have to build |
 |---|---|
-| per-market funding intervals that differ (1h to 8h) | correct annualization per symbol — a naive ×24×365 overstates 8h markets by 8× |
+| per-market funding intervals that differ (1h to 8h) | correct annualization per symbol; a naive ×24×365 overstates 8h markets by 8× |
 | funding cap/floor fields under live vs legacy names | name negotiation with fallback (this gateway reads `fundingFeeCap`/`FundingFeeFloor` and degrades honestly) |
 | ~580 symbols mixing crypto, TradFi 24/7 perps and spot | chain/asset-class filtering, spot index dislocation ranking, capacity filtering where OI is not published |
 | three separate API surfaces (futures/spot/tapi) + Solana | one tool surface with consistent symbol handling and per-field source tags |
@@ -171,7 +162,7 @@ tickers 15s, depth 5s, klines 60s, trades 10s, openInterest 30s.
 
 ## Part of the suite
 
-Four sibling read-only MCP gateways, one style — keyless, cached, honest degradation:
+Four sibling read-only MCP gateways, one style: keyless, cached, honest degradation.
 
 | Gateway | Focus |
 |---|---|
@@ -180,7 +171,7 @@ Four sibling read-only MCP gateways, one style — keyless, cached, honest degra
 | [hyperliquid-agent-gateway](https://github.com/alekskram/hyperliquid-agent-gateway) | Hyperliquid: 233 perps + spot, funding carry, account risk, HyperEVM |
 | **aster-agent-gateway** (you are here) | Aster DEX: ~580 futures incl. 24/7 TradFi perps, funding caps/floors |
 
-All four are on [glama.ai](https://glama.ai/mcp/servers/alekskram/aster-agent-gateway) and PyPI — install any of them with `uvx <name>`.
+All four are on [glama.ai](https://glama.ai/mcp/servers/alekskram/aster-agent-gateway) and PyPI; any of them installs with `uvx <name>`.
 
 ## License
 
